@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="cc109aca-d7e5-4210-92e7-f53f5a147042" basePath="/course/api">
+		<http:listener-connection host="0.0.0.0" port="${api.config.port}" />
+	</http:listener-config>
+	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="19ad7dcf-f4ca-470e-88a4-5bac5a0122e7" name="RouterRest" api="api\rest-api.raml" >
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/teste" action="get" flow-ref="testeFlow" />
+		</apikit:flow-mappings>
+	</apikit:config>
+	<apikit:config outboundHeadersMapName="outboundHeadersMapName" httpStatusVarName="httpStatus" doc:name="Router" doc:id="4118be20-1d71-48e2-9f78-d008853140d8" name="RouterComponent" api="api\component-api.raml" >
+		<apikit:flow-mappings >
+			<apikit:flow-mapping resource="/teste2" action="get" flow-ref="testeFlow" />
+		</apikit:flow-mappings>
+	</apikit:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="1347808f-84ae-4129-adaa-c12347970de4" file="Local.yaml" />
+</mule>

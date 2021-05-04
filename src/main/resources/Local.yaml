@@ -1,0 +1,14 @@
+api:
+  config:
+    basepath: "course"
+    port: "8081"
+sfdc:
+  auth:
+    host: "login.salesforce.com"
+    username: "curso_mule_salesforce@lffconsultoria.com.br"
+    password: "Leoff1403!"
+    security_token: "KrmejXFWe9WXnrArqv1k7bcUN"
+    client_id: "3MVG9cHH2bfKACZZLev3rAuoDYVU0RBwkIab3rg5MRKi4D2g6NEltkhji22gMffNpoO67HF5SI.eSNcVYvaxf"
+    client_secret: "93FD6824663804A527F84F6EACF44C9D40186015C4523E7431EEE5754F0BD6D3"
+  endpoint:
+    host: "lffcursomulesales-dev-ed.my.salesforce.com"
