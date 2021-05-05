@@ -24,6 +24,7 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 			<apikit:flow-mapping resource="/teste" action="get" flow-ref="testeFlow" />
 			<apikit:flow-mapping resource="/demo-01/rest" action="get" flow-ref="demo-01-rest-flow" />
 			<apikit:flow-mapping resource="/demo-01/soap" action="get" flow-ref="demo-01-soap-flow" />
+			<apikit:flow-mapping resource="/demo-02/insert" action="post" flow-ref="demo-02-insert-flow" />
 		</apikit:flow-mappings>
 	</apikit:config>
 	<apikit:config
@@ -41,5 +42,8 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 		doc:id="1347808f-84ae-4129-adaa-c12347970de4" file="Local.yaml" />
 	<http:request-config name="SFDC_AUTH" doc:name="HTTP Request configuration" doc:id="e00d8d00-aaec-4b11-9f3b-62eae2aa5ff4" >
 		<http:request-connection protocol="HTTPS" host="${sfdc.auth.host}" />
+	</http:request-config>
+	<http:request-config name="SFDC_ENDPOINT" doc:name="HTTP Request configuration" doc:id="c51d9157-3d91-46d6-b902-09660e4f2e52" >
+		<http:request-connection protocol="HTTPS" host="${sfdc.endpoint.host}" />
 	</http:request-config>
 </mule>

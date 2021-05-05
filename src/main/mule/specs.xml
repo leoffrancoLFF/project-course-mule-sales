@@ -8,6 +8,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="specs-rest" doc:id="c45c5b4a-add0-41a7-8d40-771f9498fc6f" >
 		<http:listener doc:name="Listener" doc:id="12181177-0e1c-4397-82bb-0eb1f3a07b28" config-ref="HTTP_Listener_config" path="rest/*"/>
+		<set-variable value="#[payload]" doc:name="Request Payload" doc:id="43273a8e-a245-4633-81ab-5609cd5682da" variableName="requestPayload"/>
 		<logger level="INFO" doc:name="Logger" doc:id="0355d928-a5e7-4c19-9975-97baf33339d1" message="Chegou Rest"/>
 		<apikit:router doc:name="APIkit Router" doc:id="ff1c79ec-3fca-4d3a-8191-4be54d8b497b" config-ref="RouterRest"/>
 	</flow>
