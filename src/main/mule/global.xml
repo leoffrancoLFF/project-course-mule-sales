@@ -25,6 +25,7 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 			<apikit:flow-mapping resource="/demo-01/rest" action="get" flow-ref="demo-01-rest-flow" />
 			<apikit:flow-mapping resource="/demo-01/soap" action="get" flow-ref="demo-01-soap-flow" />
 			<apikit:flow-mapping resource="/demo-02/insert" action="post" flow-ref="demo-02-insert-flow" />
+			<apikit:flow-mapping resource="/demo-03/consultar" action="post" flow-ref="demo-03-consulta-flow" />
 		</apikit:flow-mappings>
 	</apikit:config>
 	<apikit:config
