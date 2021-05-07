@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="cdemo-03Flow" doc:id="4af48a00-bc85-4b6d-a48f-7db943f759f2" >
+		<set-variable value="#[vars.requestPayload.select]" doc:name="Query" doc:id="c167945d-7b02-45bb-88ee-e1fafb009489" variableName="query"/>
+		<salesforce:query doc:name="Query" doc:id="f12dd94d-37d0-4831-bbab-5202bc3c743f" config-ref="Salesforce_Config">
+			<salesforce:salesforce-query ><![CDATA[#[vars.query]]]></salesforce:salesforce-query>
+		</salesforce:query>
+		<ee:transform doc:name="Transform Message" doc:id="56245c4e-7bdd-4612-9993-f40d1adb9153" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json	
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	
+</flow>
+</mule>

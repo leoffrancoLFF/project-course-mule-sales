@@ -40,6 +40,7 @@ http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mu
 			<apikit:flow-mapping resource="/teste2" action="get" flow-ref="testeFlow" />
 			<apikit:flow-mapping resource="/demo-01" action="get" flow-ref="cdemo-01-flow" />
 			<apikit:flow-mapping resource="/demo-02" action="post" flow-ref="cdemo-02Flow" />
+			<apikit:flow-mapping resource="/demo-03" action="post" flow-ref="cdemo-03Flow" />
 		</apikit:flow-mappings>
 	</apikit:config>
 	<configuration-properties
