@@ -14,6 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</flow>
 	<flow name="specs-component" doc:id="04b7c908-04f3-4eee-881d-be396e7a406c" >
 		<http:listener doc:name="Listener" doc:id="56c7cb46-75b1-4312-a3f6-bb1628a4ec93" config-ref="HTTP_Listener_config" path="component/*"/>
+		<set-variable value="#[payload]" doc:name="Request Payload" doc:id="6b114270-37cd-46cd-bd73-5de3bc431a35" variableName="requestPayload" />
 		<logger level="INFO" doc:name="Logger" doc:id="ddfb84b9-9ac9-4a90-a14e-fe41f7fc194e" message="Chegou Component"/>
 		<apikit:router doc:name="APIkit Router" doc:id="b9a4f836-ea04-4661-ab95-179645aaff7a" config-ref="RouterComponent"/>
 	</flow>

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule
+	xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
 	xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit"
 	xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd">
+http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd">
 	<http:listener-config name="HTTP_Listener_config"
 		doc:name="HTTP Listener config"
 		doc:id="cc109aca-d7e5-4210-92e7-f53f5a147042" basePath="/course/api">
@@ -36,8 +37,8 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 		doc:id="4118be20-1d71-48e2-9f78-d008853140d8" name="RouterComponent"
 		api="api\component-api.raml">
 		<apikit:flow-mappings>
-			<apikit:flow-mapping resource="/teste2"
-				action="get" flow-ref="testeFlow" />
+			<apikit:flow-mapping resource="/teste2" action="get" flow-ref="testeFlow" />
+			<apikit:flow-mapping resource="/demo-01" action="get" flow-ref="cdemo-01-flow" />
 		</apikit:flow-mappings>
 	</apikit:config>
 	<configuration-properties
@@ -49,4 +50,7 @@ http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/m
 	<http:request-config name="SFDC_ENDPOINT" doc:name="HTTP Request configuration" doc:id="c51d9157-3d91-46d6-b902-09660e4f2e52" >
 		<http:request-connection protocol="HTTPS" host="${sfdc.endpoint.host}" />
 	</http:request-config>
+	<salesforce:sfdc-config name="Salesforce_Config" doc:name="Salesforce Config" doc:id="5fb69483-86b0-4171-9c09-34288ac52e75" >
+		<salesforce:oauth-user-pass-connection consumerKey="${sfdc.auth.client_id}" consumerSecret="${sfdc.auth.client_secret}" username="${sfdc.auth.username}" password="${sfdc.auth.password}" securityToken="${sfdc.auth.security_token}" />
+	</salesforce:sfdc-config>
 </mule>
