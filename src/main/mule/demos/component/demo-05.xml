@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:salesforce="http://www.mulesoft.org/schema/mule/salesforce"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce http://www.mulesoft.org/schema/mule/salesforce/current/mule-salesforce.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="cdemo-05Flow" doc:id="f931e6f2-c41e-47b6-9460-430275059e6f" >
+		<set-variable value="#[attributes.uriParams.id]" doc:name="Id" doc:id="fe8937ac-2baf-48d7-8493-133aa6ec02a1" variableName="id" />
+		<salesforce:invoke-apex-rest-method className="CourseMulesoft" methodName="getAccount^/courseMulesoft^HttpGet^LIST&lt;Account&gt;" doc:name="Invoke apex rest method" doc:id="6d5b8ce1-518c-4993-a594-bb0acb1f4773" config-ref="Salesforce_Config">
+			<salesforce:request ><![CDATA[#[{
+	queryParams: {
+		id: vars.id
+	}
+}]]]></salesforce:request>
+		</salesforce:invoke-apex-rest-method>
+		<ee:transform doc:name="Transform Message" doc:id="8fe55f53-c601-4072-ae45-068fe9408629" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload.getAccountOutput[0] - "attributes"]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	
+</flow>
+</mule>
