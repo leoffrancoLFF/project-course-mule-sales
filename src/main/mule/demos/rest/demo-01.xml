@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="demo-01-rest-flow"
+		doc:id="0b0f94f6-5ead-4eaa-b4fa-3d9b414661f2">
+		<ee:transform doc:name="Build Object Login"
+			doc:id="51b97ac5-0fed-48a7-bc67-c1e317f55388">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/java
+---
+{
+	grant_type: "password",
+	client_id: p("sfdc.auth.client_id"),
+	client_secret: p("sfdc.auth.client_secret"),
+	username: p("sfdc.auth.username"),
+	password: p("sfdc.auth.password") ++ p("sfdc.auth.security_token")
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request SFDC REST"
+			doc:id="fef1323e-3edb-4b2a-b85d-fec0c2ec4e3b"
+			config-ref="SFDC_AUTH" path="/services/oauth2/token">
+			<http:body><![CDATA[#[{}]]]></http:body>
+			<http:query-params ><![CDATA[#[payload]]]></http:query-params>
+		
+</http:request>
+		<ee:transform doc:name="Transform Message"
+			doc:id="085fd47c-02b9-4c46-b419-e402c95ccf1e">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	access_token: payload.access_token
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="demo-01-soap-flow"
+		doc:id="d29cfb06-b38b-4d69-b371-b2f56733aca1">
+		<ee:transform doc:name="Transform Message"
+			doc:id="e008ac19-24f0-4748-ac16-07de6c58f614">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output text/xml
+ns n1 urn:partner.soap.sforce.com
+ns env http://schemas.xmlsoap.org/soap/envelope/
+---
+env#Envelope: {
+    env#Body: {
+        n1#login: {
+            n1#username: p('sfdc.auth.username'),
+            n1#password: p('sfdc.auth.password') ++ p('sfdc.auth.security_token')
+        }
+    }
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<http:request method="POST" doc:name="Request SFDC SOAP"
+			doc:id="ceb880ec-3adb-4112-a7bb-151626552ea3"
+			config-ref="SFDC_AUTH" path="/services/Soap/u/50.0">
+			<http:headers><![CDATA[#[{
+	SOAPAction: "login",
+	"Content-Type": "text/xml"
+}]]]></http:headers>
+		</http:request>
+		<ee:transform doc:name="Transform Message"
+			doc:id="8eacc0b3-09d0-4757-8686-22fd710a8a59">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+	access_token: payload.Envelope.Body.loginResponse.result.sessionId
+}
+]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
